@@ -80,7 +80,7 @@ func main() {
 			usage = "\tIt has been used " + strconv.Itoa(count) + " time" + plural
 		}
 
-		fmt.Printf("Your password was %s  %s", verb, usage)
+		fmt.Printf("Your password %s  %s", verb, usage)
 	}
 
 }
