@@ -56,6 +56,24 @@ func checkHIBP(password string) int {
 
 }
 
+
+func formatResult(count int) (string) {
+	verb := "has NOT been found!  Congrats....."
+	usage := ""
+	plural := "s"
+	if count > 0 {
+		if count == 1 {
+			plural = ""
+		}
+		verb = "has been found."
+		usage = "\tIt has been used " + strconv.Itoa(count) + " time" + plural
+	}
+
+
+	return fmt.Sprintf("Your password %s  %s", verb, usage)
+}
+
+
 func main() {
 
 	if len(os.Args) != 2 {
@@ -64,23 +82,12 @@ func main() {
 
 	} else {
 
-		password := os.Args[1]
 
-		verb := "has NOT been found!  Congrats....."
-		usage := ""
-		plural := "s"
+		password := os.Args[1]
 
 		count := checkHIBP(password)
 
-		if count > 0 {
-			if count == 1 {
-				plural = ""
-			}
-			verb = "has been found."
-			usage = "\tIt has been used " + strconv.Itoa(count) + " time" + plural
-		}
-
-		fmt.Printf("Your password %s  %s", verb, usage)
+		fmt.Printf(formatResult(count))
 	}
 
 }

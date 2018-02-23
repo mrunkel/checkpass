@@ -7,9 +7,9 @@ import (
 func TestCheckHIBP(t *testing.T) {
 
 	tables := []struct {
-		password string
+		password      string
 		expectedCount int
-	} {
+	}{
 		{"ilovemymom", 20141},
 		{"apostasy-fryer-osaka-impiety-aspirin-hightail", 0},
 	}
@@ -22,6 +22,5 @@ func TestCheckHIBP(t *testing.T) {
 		}
 
 	}
-
 
 }
