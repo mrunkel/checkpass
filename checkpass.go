@@ -10,6 +10,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"golang.org/x/crypto/ssh/terminal"
+	"syscall"
 )
 
 func checkHIBP(password string) int {
@@ -70,20 +72,38 @@ func formatResult(count int) (string) {
 	}
 
 
-	return fmt.Sprintf("Your password %s  %s", verb, usage)
+	return fmt.Sprintf("Your password %s%s", verb, usage)
 }
 
+func getPassword () (string) {
+	password := ""
+	for password == "" {
+		fmt.Print("Enter the password to test: ")
+		bytePassword, err := terminal.ReadPassword(int(syscall.Stdin))
+		if err != nil {
+			panic(err)
+		}
+		password = string(bytePassword)
+	}
+
+	return password
+}
 
 func main() {
 
-	if len(os.Args) != 2 {
+	if len(os.Args) > 2 {
 
 		fmt.Printf("Usage: " + os.Args[0] + " PasswordToCheck\n\n\n")
 
 	} else {
+		password := ""
+		if len(os.Args) == 1 {
+			password = getPassword()
+		} else {
+			password = os.Args[1]
+		}
 
 
-		password := os.Args[1]
 
 		count := checkHIBP(password)
 
