@@ -61,16 +61,17 @@ func checkHIBP(password string) int {
 
 func formatResult(count int) (string) {
 	verb := "has NOT been found!  Congrats....."
-	usage := ""
+	usage := " "
 	plural := "s"
 	if count > 0 {
 		if count == 1 {
 			plural = ""
 		}
-		verb = "has been found."
-		usage = "\tIt has been used " + strconv.Itoa(count) + " time" + plural
+		verb = "has been compromised and shouldn't be used any longer.\n"
+		verb += "You can read about how to select a good password at "
+		verb += "https://runkel.org/2017/09/how-to-pick-a-password/\n"
+		usage = "\n\nIt has been found " + strconv.Itoa(count) + " time" + plural + " on the dark web.\n\n\n"
 	}
-
 
 	return fmt.Sprintf("Your password %s%s", verb, usage)
 }
@@ -103,11 +104,12 @@ func main() {
 			password = os.Args[1]
 		}
 
-
+		fmt.Print("\n\nChecking the password against the haveibeenpwnd service.\n\n")
 
 		count := checkHIBP(password)
 
-		fmt.Printf(formatResult(count))
+		fmt.Print(formatResult(count))
+
 	}
 
 }
