@@ -4,13 +4,13 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
+	"golang.org/x/crypto/ssh/terminal"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
-	"golang.org/x/crypto/ssh/terminal"
 	"syscall"
 )
 
@@ -58,8 +58,7 @@ func checkHIBP(password string) int {
 
 }
 
-
-func formatResult(count int) (string) {
+func formatResult(count int) string {
 	verb := "has NOT been found!  Congrats....."
 	usage := " "
 	plural := "s"
@@ -76,7 +75,7 @@ func formatResult(count int) (string) {
 	return fmt.Sprintf("Your password %s%s", verb, usage)
 }
 
-func getPassword () (string) {
+func getPassword() string {
 	password := ""
 	for password == "" {
 		fmt.Print("Enter the password to test: ")

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/andreyvit/diff"
+	"strings"
 	"testing"
 )
 
@@ -30,15 +32,20 @@ func TestFormatResult(t *testing.T) {
 		count          int
 		expectedResult string
 	}{
-		{0, "Your password has NOT been found!  Congrats....."},
-		{1, "Your password has been found.\tIt has been used 1 time"},
-		{2, "Your password has been found.\tIt has been used 2 times"},
+
+		{0, "Your password has NOT been found!  Congrats..... "},
+		{1, "Your password has been compromised and shouldn't be used any longer.\nYou can read about how to select " +
+			"a good password at https://runkel.org/2017/09/how-to-pick-a-password/\n" +
+			"\n\nIt has been found 1 time on the dark web.\n\n\n\n"},
+		{2, "Your password has been compromised and shouldn't be used any longer.\nYou can read about how to select " +
+			"a good password at https://runkel.org/2017/09/how-to-pick-a-password/\n" +
+			"\n\nIt has been found 2 times on the dark web.\n\n\n\n"},
 	}
 
 	for _, table := range tables {
 		result := formatResult(table.count)
-		if result != table.expectedResult {
-			t.Errorf("formatResult is incorrect got: %s, wanted %s for %d.", result, table.expectedResult, table.count)
+		if a, e := strings.TrimSpace(result), strings.TrimSpace(table.expectedResult); a != e {
+			t.Errorf("Result not as expected\n%v", diff.LineDiff(e, a))
 		}
 	}
 }
